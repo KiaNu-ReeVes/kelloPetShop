@@ -2,12 +2,15 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import { useParams } from 'next/navigation';
 import { Share2, Minus, Plus, Truck, Shield, RotateCcw } from 'lucide-react';
 import Header from '@/components/Header';
 import productsData from '@/data/products.json';
 
-export default function ProductDetailPage({ params }: { params: { id: string } }) {
-  const allProduct = productsData.products.find(p => p.id === parseInt(params.id));
+export default function ProductDetailPage() {
+  const params = useParams();
+  const id = params.id as string;
+  const allProduct = productsData.products.find(p => p.id === parseInt(id));
   const product = allProduct ? {
     ...allProduct,
     inStock: allProduct.stock !== false,

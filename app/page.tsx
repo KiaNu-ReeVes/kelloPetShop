@@ -93,7 +93,7 @@ export default function Home() {
               <h1 className="text-4xl sm:text-5xl font-bold mb-4 leading-tight">
                 <span className="text-primary">بهترین محصولات</span>
                 <br />
-                برای دوستان خطرناک‌تان
+                برای پت های مهربونتون
               </h1>
               <p className="text-lg text-muted-foreground mb-8 leading-relaxed">
                 Kellopet منتخب بهترین برندهای جهانی محصولات حیوان خانگی را برای شما فراهم می‌کند. کیفیت تضمین شده و ارسال سریع.

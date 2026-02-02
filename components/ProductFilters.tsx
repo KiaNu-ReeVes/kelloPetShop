@@ -9,10 +9,10 @@ interface ProductFiltersProps {
 
 export default function ProductFilters({ onFilterChange }: ProductFiltersProps) {
   const [expandedSections, setExpandedSections] = useState<Record<string, boolean>>({
-    category: true,
-    brand: true,
-    price: true,
-    stock: true,
+    category: false,
+    brand: false,
+    price: false,
+    stock: false,
   });
 
   const categories = [
