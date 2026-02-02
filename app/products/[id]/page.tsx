@@ -4,20 +4,13 @@ import { useState } from 'react';
 import Link from 'next/link';
 import { Share2, Minus, Plus, Truck, Shield, RotateCcw } from 'lucide-react';
 import Header from '@/components/Header';
-import ThemeSwitcher from '@/components/ThemeSwitcher'; // Import ThemeSwitcher
+import productsData from '@/data/products.json';
 
-const productDetails: Record<string, any> = {
-  1: {
-    id: 1,
-    name: 'غذای خشک گربه پرتوئین بالا',
-    brand: 'دکتر هاس',
-    price: 250000,
-    originalPrice: 300000,
-    rating: 4.5,
-    reviews: 48,
-    image: '/images/image.png',
-    description:
-      'غذای خشک گربه دکتر هاس با فرمولاسیون ویژه و پرتوئین بالا برای سلامتی و انرژی بهتر گربه‌های شما.',
+export default function ProductDetailPage({ params }: { params: { id: string } }) {
+  const allProduct = productsData.products.find(p => p.id === parseInt(params.id));
+  const product = allProduct ? {
+    ...allProduct,
+    inStock: allProduct.stock !== false,
     details: {
       weight: '۲ کیلوگرم',
       ingredients: 'گوشت مرغ، برنج، روغن ماهی، ویتامین‌ها و مواد معدنی',
@@ -30,36 +23,21 @@ const productDetails: Record<string, any> = {
       'حاوی اسیدهای چرب ضروری',
       'درایت فلاکونی ایمنی سلامت',
     ],
-    inStock: true,
-  },
-  2: {
-    id: 2,
-    name: 'اسباب بازی گربه رنگی',
-    brand: 'فنبی',
-    price: 85000,
-    originalPrice: 110000,
-    rating: 4.8,
-    reviews: 32,
-    image: '/images/image.png',
-    description: 'اسباب بازی رنگی و جذاب برای سرگرمی گربه‌های شما با مواد ایمن.',
-    details: {
-      colors: 'قرمز، آبی، زرد، سبز',
-      material: 'پلاستیک ایمن و غیر سمی',
-      size: 'متوسط',
-      weight: '۰.۵ کیلوگرم',
-    },
-    features: [
-      'رنگ‌های جذاب برای توجه گربه',
-      'مواد ایمن و غیر سمی',
-      'طراحی ارگونومی',
-      'آسان برای تمیز کردن',
-    ],
-    inStock: true,
-  },
-};
+  } : null;
 
-export default function ProductDetailPage({ params }: { params: { id: string } }) {
-  const product = productDetails[params.id] || productDetails['1'];
+  if (!product) {
+    return (
+      <div dir="rtl" className="min-h-screen bg-background text-foreground">
+        <Header />
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12 text-center">
+          <h1 className="text-2xl font-bold mb-4">محصول یافت نشد</h1>
+          <Link href="/products" className="text-primary hover:underline">
+            بازگشت به محصولات
+          </Link>
+        </div>
+      </div>
+    );
+  }
   const [quantity, setQuantity] = useState(1);
 
   const handleShare = () => {
@@ -80,23 +58,23 @@ export default function ProductDetailPage({ params }: { params: { id: string } }
       <Header />
 
       {/* Breadcrumb */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
-        <div className="flex items-center gap-2 text-sm text-muted-foreground">
-          <Link href="/" className="hover:text-primary transition-colors">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3 sm:py-4">
+        <div className="flex items-center gap-2 text-xs sm:text-sm text-muted-foreground overflow-x-auto">
+          <Link href="/" className="hover:text-primary transition-colors whitespace-nowrap">
             خانه
           </Link>
-          <span>/</span>
-          <Link href="/products" className="hover:text-primary transition-colors">
+          <span className="mx-1">/</span>
+          <Link href="/products" className="hover:text-primary transition-colors whitespace-nowrap">
             محصولات
           </Link>
-          <span>/</span>
-          <span className="text-foreground">{product.name}</span>
+          <span className="mx-1">/</span>
+          <span className="text-foreground line-clamp-1">{product.name}</span>
         </div>
       </div>
 
       {/* Product Details */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8 mb-12">
           {/* Product Image */}
           <div className="flex justify-center">
             <div className="relative w-full max-w-md h-96 rounded-2xl overflow-hidden border-2 border-primary/30 bg-muted">
@@ -124,63 +102,64 @@ export default function ProductDetailPage({ params }: { params: { id: string } }
             </div>
 
             {/* Price Section */}
-            <div className="border-b border-border pb-6 mb-6">
-              <div className="flex items-end gap-3 mb-2">
-                <span className="text-4xl font-bold text-primary">
+            <div className="border-b border-border pb-4 sm:pb-6 mb-4 sm:mb-6">
+              <div className="flex items-end gap-2 sm:gap-3 mb-2">
+                <span className="text-2xl sm:text-4xl font-bold text-primary">
                   {product.price.toLocaleString('fa-IR')}
                 </span>
                 {product.originalPrice && (
-                  <span className="text-lg text-muted-foreground line-through pb-1">
+                  <span className="text-sm sm:text-lg text-muted-foreground line-through pb-0 sm:pb-1">
                     {product.originalPrice.toLocaleString('fa-IR')}
                   </span>
                 )}
               </div>
               {product.originalPrice && (
-                <p className="text-sm text-accent font-semibold">
+                <p className="text-xs sm:text-sm text-accent font-semibold">
                   {Math.round(((product.originalPrice - product.price) / product.originalPrice) * 100)}% تخفیف
                 </p>
               )}
             </div>
 
             {/* Description */}
-            <p className="text-muted-foreground mb-6 leading-relaxed">{product.description}</p>
+            <p className="text-muted-foreground mb-4 sm:mb-6 leading-relaxed text-sm sm:text-base">{product.description}</p>
 
             {/* Quantity and Buttons */}
-            <div className="space-y-4 mb-6">
-              <div className="flex items-center gap-4">
-                <span className="text-sm font-semibold">تعداد:</span>
-                <div className="flex items-center border border-border rounded-lg bg-card">
+            <div className="space-y-3 sm:space-y-4 mb-4 sm:mb-6">
+              <div className="flex items-center gap-2 sm:gap-4">
+                <span className="text-xs sm:text-sm font-semibold whitespace-nowrap">تعداد:</span>
+                <div className="flex items-center border border-border rounded-lg bg-background">
                   <button
                     onClick={() => setQuantity(Math.max(1, quantity - 1))}
-                    className="p-2 hover:bg-muted transition-colors"
+                    className="p-1 sm:p-2 hover:bg-muted transition-colors"
                   >
-                    <Minus size={20} />
+                    <Minus size={16} className="sm:w-5 sm:h-5" />
                   </button>
-                  <span className="px-4 py-2 font-semibold">{quantity}</span>
+                  <span className="px-3 sm:px-4 py-1 sm:py-2 font-semibold text-sm">{quantity}</span>
                   <button
                     onClick={() => setQuantity(quantity + 1)}
-                    className="p-2 hover:bg-muted transition-colors"
+                    className="p-1 sm:p-2 hover:bg-muted transition-colors"
                   >
-                    <Plus size={20} />
+                    <Plus size={16} className="sm:w-5 sm:h-5" />
                   </button>
                 </div>
               </div>
 
-              <div className="flex gap-3">
+              <div className="flex gap-2 sm:gap-3">
                 <button
                   onClick={handleShare}
-                  className="flex-1 bg-primary hover:bg-primary/90 text-white font-bold py-3 rounded-lg transition-colors flex items-center justify-center gap-2"
+                  className="flex-1 bg-primary hover:bg-primary/90 text-white font-bold py-2 sm:py-3 rounded-lg transition-colors flex items-center justify-center gap-1 sm:gap-2 text-sm sm:text-base"
                   title="اشتراک‌گذاری"
                 >
-                  <Share2 size={20} />
-                  اشتراک‌گذاری
+                  <Share2 size={18} className="sm:w-5 sm:h-5" />
+                  <span className="hidden sm:inline">اشتراک‌گذاری</span>
+                  <span className="sm:hidden">اشتراک</span>
                 </button>
               </div>
             </div>
 
             {/* Stock Status */}
-            <div className="p-4 rounded-lg bg-muted/50 border border-border mb-6">
-              <p className="text-sm font-semibold text-green-500">✓ موجود در انبار</p>
+            <div className="p-3 sm:p-4 rounded-lg bg-muted/50 border border-border mb-4 sm:mb-6">
+              <p className="text-xs sm:text-sm font-semibold text-green-500">✓ موجود در انبار</p>
               <p className="text-xs text-muted-foreground mt-1">ارسال در ۱ تا ۲ روز کاری</p>
             </div>
 
@@ -222,10 +201,10 @@ export default function ProductDetailPage({ params }: { params: { id: string } }
         </div>
 
         {/* Product Details Section */}
-        <div className="bg-card border border-border rounded-lg p-8 mb-12">
-          <h2 className="text-2xl font-bold mb-6">مشخصات محصول</h2>
+        <div className="bg-card border border-border rounded-lg p-4 sm:p-8 mb-8 sm:mb-12">
+          <h2 className="text-xl sm:text-2xl font-bold mb-4 sm:mb-6">مشخصات محصول</h2>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 sm:gap-8">
             <div>
               <h3 className="font-bold mb-4 text-foreground">مشخصات تکنیکی</h3>
               <div className="space-y-3">
@@ -254,8 +233,8 @@ export default function ProductDetailPage({ params }: { params: { id: string } }
 
         {/* Related Products Section */}
         <div>
-          <h2 className="text-2xl font-bold mb-6">محصولات مرتبط</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+          <h2 className="text-xl sm:text-2xl font-bold mb-4 sm:mb-6">محصولات مرتبط</h2>
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 sm:gap-6">
             {[2, 3, 4, 5].map((id) => (
               <Link
                 key={id}

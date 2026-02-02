@@ -56,7 +56,7 @@ export default function Header({ cartCount = 0 }: HeaderProps) {
 
           {/* Right side - Icons and Theme */}
           <div className="flex items-center gap-3">
-            <Link href="/products" className="relative">
+            <Link href="/cart" className="relative">
               <button className="p-2 hover:bg-muted rounded-lg transition-colors">
                 <ShoppingCart size={20} />
               </button>

@@ -5,7 +5,6 @@ import Link from 'next/link';
 import ProductFilters from '@/components/ProductFilters';
 import Header from '@/components/Header';
 import productsData from '@/data/products.json';
-import ThemeSwitcher from '@/components/ThemeSwitcher';
 import { Heart, ShoppingCart, X, Menu } from 'lucide-react';
 
 export default function ProductsPage() {
@@ -81,48 +80,23 @@ export default function ProductsPage() {
   return (
     <div dir="rtl" className="min-h-screen bg-background text-foreground">
       <Header cartCount={cart.length} />
-      <div className="flex justify-between items-center p-4">
-        <button className="p-2 hover:bg-muted rounded-lg transition-colors hidden sm:block relative">
-          <Heart size={20} fill={favorites.length > 0 ? 'currentColor' : 'none'} className={favorites.length > 0 ? 'text-red-500' : ''} />
-          {favorites.length > 0 && (
-            <span className="absolute top-0 right-0 bg-accent text-accent-foreground text-xs rounded-full w-5 h-5 flex items-center justify-center">
-              {favorites.length}
-            </span>
-          )}
-        </button>
-        <button className="p-2 hover:bg-muted rounded-lg transition-colors relative">
-          <ShoppingCart size={20} />
-          {cart.length > 0 && (
-            <span className="absolute top-0 right-0 bg-primary text-white text-xs rounded-full w-5 h-5 flex items-center justify-center">
-              {cart.length}
-            </span>
-          )}
-        </button>
-        <ThemeSwitcher />
-        <button
-          onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-          className="md:hidden p-2 hover:bg-muted rounded-lg transition-colors"
-        >
-          {isSidebarOpen ? <X size={20} /> : <Menu size={20} />}
-        </button>
-      </div>
       {/* Main Content */}
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="flex gap-8">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 md:py-8">
+        <div className="flex flex-col lg:flex-row gap-6 lg:gap-8">
           {/* Sidebar - Filters */}
-          <aside className={`w-64 ${isSidebarOpen ? 'block' : 'hidden'} lg:block`}>
+          <aside className={`w-full lg:w-64 ${isSidebarOpen ? 'block' : 'hidden'} lg:block shrink-0`}>
             <ProductFilters onFilterChange={setFilters} />
           </aside>
 
           {/* Products Grid */}
           <div className="flex-1">
             {/* Top bar with sort and filter toggle */}
-            <div className="flex flex-col sm:flex-row gap-4 mb-8">
+            <div className="flex flex-col sm:flex-row gap-3 sm:gap-4 mb-6 sm:mb-8 items-start sm:items-center justify-between">
               {/* Sort */}
               <select
                 value={sortBy}
                 onChange={(e) => setSortBy(e.target.value)}
-                className="px-4 py-2 rounded-lg border border-border bg-card text-foreground focus:outline-none focus:ring-2 focus:ring-primary cursor-pointer"
+                className="w-full sm:w-48 px-4 py-2 rounded-lg border border-border bg-card text-foreground focus:outline-none focus:ring-2 focus:ring-primary cursor-pointer text-sm"
               >
                 <option value="popular">پرفروش‌ترین</option>
                 <option value="newest">جدیدترین</option>
@@ -133,87 +107,88 @@ export default function ProductsPage() {
               {/* Sidebar Toggle for Mobile */}
               <button
                 onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-                className="lg:hidden px-4 py-2 rounded-lg border border-border text-foreground hover:bg-muted transition-colors"
+                className="lg:hidden px-4 py-2 rounded-lg border border-border text-foreground hover:bg-muted transition-colors text-sm"
               >
                 {isSidebarOpen ? 'پنهان کردن فیلتر' : 'نمایش فیلتر'}
               </button>
             </div>
 
             {/* Results info */}
-            <div className="mb-6 flex items-center justify-between">
-              <p className="text-muted-foreground">
+            <div className="mb-4 sm:mb-6 flex items-center justify-between">
+              <p className="text-xs sm:text-sm text-muted-foreground">
                 {filteredProducts.length} محصول یافت شد
               </p>
             </div>
 
             {/* Products Grid */}
             {filteredProducts.length > 0 ? (
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+              <div className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-3 gap-3 sm:gap-6">
                 {filteredProducts.map((product) => (
                   <div
                     key={product.id}
-                    className="group bg-card border border-border rounded-xl overflow-hidden hover:border-primary/50 hover:shadow-lg transition-all duration-300"
+                    className="group bg-card border border-border rounded-lg sm:rounded-xl overflow-hidden hover:border-primary/50 hover:shadow-lg transition-all duration-300 flex flex-col h-full"
                   >
-                    <div className="relative bg-muted overflow-hidden h-56">
+                    <div className="relative bg-muted overflow-hidden h-40 sm:h-56">
                       <img
                         src={product.image || "/placeholder.svg"}
                         alt={product.name}
                         className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
                       />
                       {product.originalPrice && product.originalPrice > product.price && (
-                        <span className="absolute top-3 left-3 bg-accent text-accent-foreground px-3 py-1 rounded-full text-xs font-bold">
+                        <span className="absolute top-2 left-2 bg-accent text-accent-foreground px-2 py-1 rounded-full text-xs font-bold">
                           فروش
                         </span>
                       )}
                       {!product.stock && (
                         <div className="absolute inset-0 bg-black/50 flex items-center justify-center">
-                          <span className="text-white font-bold">موجود نیست</span>
+                          <span className="text-white font-bold text-xs sm:text-sm">موجود نیست</span>
                         </div>
                       )}
                     </div>
 
-                    <div className="p-4">
-                      <p className="text-xs text-primary font-semibold mb-2">{product.brand}</p>
-                      <h3 className="font-bold text-base mb-2 text-foreground line-clamp-2 h-14">
+                    <div className="p-2 sm:p-4 flex flex-col flex-grow">
+                      <p className="text-xs text-primary font-semibold mb-1">{product.brand}</p>
+                      <h3 className="font-bold text-xs sm:text-base mb-1 sm:mb-2 text-foreground line-clamp-2 flex-grow">
                         {product.name}
                       </h3>
 
-                      <div className="flex items-center gap-1 mb-3">
+                      <div className="flex items-center gap-1 mb-2 sm:mb-3">
                         <span className="text-xs text-yellow-500">★</span>
                         <span className="text-xs text-muted-foreground">
-                          {product.rating} ({product.reviews} نظر)
+                          {product.rating} ({product.reviews})
                         </span>
                       </div>
 
-                      <div className="flex items-center gap-2 mb-4">
-                        <span className="text-lg font-bold text-primary">
+                      <div className="flex items-baseline gap-1 sm:gap-2 mb-2 sm:mb-4">
+                        <span className="text-sm sm:text-lg font-bold text-primary">
                           {product.price.toLocaleString('fa-IR')}
                         </span>
                         {product.originalPrice && (
-                          <span className="text-sm text-muted-foreground line-through">
+                          <span className="text-xs text-muted-foreground line-through">
                             {product.originalPrice.toLocaleString('fa-IR')}
                           </span>
                         )}
                       </div>
 
-                      <Link href={`/products/${product.id}`}>
-                        <button className="w-full font-medium py-2 rounded-lg bg-primary hover:bg-primary/90 text-white transition-colors">
-                          مشاهده جزئیات
+                      <div className="flex gap-2 mt-auto">
+                        <Link href={`/products/${product.id}`} className="flex-1">
+                          <button className="w-full font-medium py-1 sm:py-2 rounded text-xs sm:text-sm bg-primary hover:bg-primary/90 text-primary-foreground transition-colors">
+                            جزئیات
+                          </button>
+                        </Link>
+                        <button
+                          onClick={() => product.stock && addToCart(product.id)}
+                          disabled={!product.stock}
+                          className={`flex-1 font-medium py-1 sm:py-2 rounded text-xs sm:text-sm transition-colors flex items-center justify-center gap-1 ${
+                            product.stock
+                              ? 'bg-primary hover:bg-primary/90 text-white'
+                              : 'bg-muted text-muted-foreground cursor-not-allowed'
+                          }`}
+                        >
+                          <ShoppingCart size={14} className="hidden sm:block" />
+                          {product.stock ? 'سبد' : 'تمام'}
                         </button>
-                      </Link>
-
-                      <button
-                        onClick={() => product.stock && addToCart(product.id)}
-                        disabled={!product.stock}
-                        className={`w-full font-medium py-2 rounded-lg transition-colors flex items-center justify-center gap-2 ${
-                          product.stock
-                            ? 'bg-primary hover:bg-primary/90 text-white'
-                            : 'bg-muted text-muted-foreground cursor-not-allowed'
-                        }`}
-                      >
-                        <ShoppingCart size={18} />
-                        {product.stock ? 'افزودن به سبد' : 'ناموجود'}
-                      </button>
+                      </div>
                     </div>
                   </div>
                 ))}
