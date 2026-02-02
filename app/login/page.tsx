@@ -4,8 +4,9 @@ import React from "react"
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { Eye, EyeOff, ArrowRight } from 'lucide-react';
+import { Eye, EyeOff } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import Header from '@/components/Header';
 
 export default function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
@@ -23,25 +24,8 @@ export default function LoginPage() {
   };
 
   return (
-    <div dir="rtl" className="min-h-screen bg-background text-foreground dark flex flex-col">
-      {/* Header */}
-      <header className="sticky top-0 z-50 bg-card border-b border-border">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16">
-            <Link href="/" className="flex items-center">
-              <div className="text-2xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
-                Kellopet
-              </div>
-            </Link>
-            <Link href="/">
-              <Button variant="outline" size="sm" className="flex items-center gap-2 bg-transparent">
-                <ArrowRight size={18} />
-                بازگشت
-              </Button>
-            </Link>
-          </div>
-        </div>
-      </header>
+    <div dir="rtl" className="min-h-screen bg-background text-foreground flex flex-col">
+      <Header />
 
       {/* Main Content */}
       <main className="flex-1 flex items-center justify-center px-4 py-12">

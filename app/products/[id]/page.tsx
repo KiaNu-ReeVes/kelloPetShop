@@ -2,8 +2,9 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { Heart, ShoppingCart, Share2, Minus, Plus, Truck, Shield, RotateCcw } from 'lucide-react';
-import { Button } from '@/components/ui/button';
+import { Share2, Minus, Plus, Truck, Shield, RotateCcw } from 'lucide-react';
+import Header from '@/components/Header';
+import ThemeSwitcher from '@/components/ThemeSwitcher'; // Import ThemeSwitcher
 
 const productDetails: Record<string, any> = {
   1: {
@@ -60,12 +61,6 @@ const productDetails: Record<string, any> = {
 export default function ProductDetailPage({ params }: { params: { id: string } }) {
   const product = productDetails[params.id] || productDetails['1'];
   const [quantity, setQuantity] = useState(1);
-  const [isFavorite, setIsFavorite] = useState(false);
-
-  const handleAddToCart = () => {
-    alert(`${quantity} عدد محصول به سبد خریدتان اضافه شد!`);
-    console.log(`Added ${quantity} item(s) to cart`);
-  };
 
   const handleShare = () => {
     const url = window.location.href;
@@ -81,28 +76,8 @@ export default function ProductDetailPage({ params }: { params: { id: string } }
   };
 
   return (
-    <div dir="rtl" className="min-h-screen bg-background text-foreground dark">
-      {/* Header */}
-      <header className="sticky top-0 z-50 bg-card border-b border-border">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="flex items-center justify-between h-16">
-            <Link href="/" className="text-2xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
-              Kellopet
-            </Link>
-            <nav className="hidden md:flex gap-4">
-              <Link href="/" className="text-sm hover:text-primary transition-colors">
-                خانه
-              </Link>
-              <Link href="/products" className="text-sm hover:text-primary transition-colors">
-                محصولات
-              </Link>
-            </nav>
-            <button className="p-2 hover:bg-muted rounded-lg transition-colors">
-              <ShoppingCart size={20} />
-            </button>
-          </div>
-        </div>
-      </header>
+    <div dir="rtl" className="min-h-screen bg-background text-foreground">
+      <Header />
 
       {/* Breadcrumb */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
@@ -193,28 +168,12 @@ export default function ProductDetailPage({ params }: { params: { id: string } }
 
               <div className="flex gap-3">
                 <button
-                  onClick={handleAddToCart}
-                  className="flex-1 bg-primary hover:bg-primary/90 text-white font-bold py-3 rounded-lg transition-colors flex items-center justify-center gap-2"
-                >
-                  <ShoppingCart size={20} />
-                  افزودن به سبد خریدی
-                </button>
-                <button
-                  onClick={() => setIsFavorite(!isFavorite)}
-                  className={`px-4 py-3 rounded-lg border transition-colors flex items-center justify-center ${
-                    isFavorite
-                      ? 'bg-accent/10 border-accent text-accent'
-                      : 'border-border hover:bg-muted'
-                  }`}
-                >
-                  <Heart size={20} fill={isFavorite ? 'currentColor' : 'none'} />
-                </button>
-                <button
                   onClick={handleShare}
-                  className="px-4 py-3 rounded-lg border border-border hover:bg-muted transition-colors"
+                  className="flex-1 bg-primary hover:bg-primary/90 text-white font-bold py-3 rounded-lg transition-colors flex items-center justify-center gap-2"
                   title="اشتراک‌گذاری"
                 >
                   <Share2 size={20} />
+                  اشتراک‌گذاری
                 </button>
               </div>
             </div>
