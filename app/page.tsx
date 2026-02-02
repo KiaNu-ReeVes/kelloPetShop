@@ -6,78 +6,23 @@ import Link from 'next/link';
 import { ChevronRight, Package, Clock, CheckCircle, ShoppingCart, Search, Heart, X, Menu } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import Header from '@/components/Header';
+import productsData from '@/data/products.json';
 
 export default function Home() {
+  // Get first 4 products for featured section
+  const products = productsData.products.slice(0, 4).map(p => ({
+    ...p,
+    price: p.price.toLocaleString('fa-IR'),
+    originalPrice: p.originalPrice ? p.originalPrice.toLocaleString('fa-IR') : null,
+    badge: p.originalPrice ? 'فروش' : 'جدید',
+  }));
 
-  const products = [
-    {
-      id: 1,
-      name: 'غذای خشک گربه',
-      brand: 'دکتر هاس',
-      price: '۲۵۰,۰۰۰',
-      originalPrice: '۳۰۰,۰۰۰',
-      image: '/images/image.png',
-      badge: 'فروش',
-    },
-    {
-      id: 2,
-      name: 'اسباب بازی گربه رنگی',
-      brand: 'فنبی',
-      price: '۸۵,۰۰۰',
-      originalPrice: '۱۱۰,۰۰۰',
-      image: '/images/image.png',
-      badge: 'جدید',
-    },
-    {
-      id: 3,
-      name: 'تشویقی سگ معلق',
-      brand: 'ونپی',
-      price: '۱۲۰,۰۰۰',
-      originalPrice: '۱۵۰,۰۰۰',
-      image: '/images/image.png',
-      badge: 'فروش',
-    },
-    {
-      id: 4,
-      name: 'برس پرزگیر حرفه‌ای',
-      brand: 'وینستون',
-      price: '۱۴۰,۰۰۰',
-      originalPrice: '۱۷۰,۰۰۰',
-      image: '/images/image.png',
-      badge: 'پرفروش',
-    },
-  ];
-
-  const newProducts = [
-    {
-      id: 5,
-      name: 'ظرف غذای طراح‌شده',
-      brand: 'دکتر هاس',
-      price: '۹۵,۰۰۰',
-      image: '/images/image.png',
-    },
-    {
-      id: 6,
-      name: 'پرزگیر خودکار',
-      brand: 'فنبی',
-      price: '۲۸۰,۰۰۰',
-      image: '/images/image.png',
-    },
-    {
-      id: 7,
-      name: 'تشویقی ماهی برای سگ',
-      brand: 'ونپی',
-      price: '۶۵,۰۰۰',
-      image: '/images/image.png',
-    },
-    {
-      id: 8,
-      name: 'اسباب بازی سگ دایم',
-      brand: 'وینستون',
-      price: '۱۲۵,۰۰۰',
-      image: '/images/image.png',
-    },
-  ];
+  // Get next 4 products for new section
+  const newProducts = productsData.products.slice(4, 8).map(p => ({
+    ...p,
+    price: p.price.toLocaleString('fa-IR'),
+    originalPrice: p.originalPrice ? p.originalPrice.toLocaleString('fa-IR') : null,
+  }));
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
@@ -139,44 +84,45 @@ export default function Home() {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {products.map((product) => (
-              <div
-                key={product.id}
-                className="group bg-card border border-border rounded-xl overflow-hidden hover:border-primary/50 hover:shadow-lg transition-all duration-300"
-              >
-                {/* Image */}
-                <div className="relative bg-muted overflow-hidden h-48 sm:h-56">
-                  <img
-                    src={product.image || "/placeholder.svg"}
-                    alt={product.name}
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
-                  />
-                  {product.badge && (
-                    <span className="absolute top-3 left-3 bg-accent text-accent-foreground px-3 py-1 rounded-full text-xs font-bold">
-                      {product.badge}
-                    </span>
-                  )}
-                </div>
-
-                {/* Content */}
-                <div className="p-4 sm:p-5">
-                  <p className="text-xs text-primary font-semibold mb-2">{product.brand}</p>
-                  <h3 className="font-bold text-base mb-3 text-foreground line-clamp-2">{product.name}</h3>
-
-                  {/* Price */}
-                  <div className="flex items-center gap-2 mb-4">
-                    <span className="text-lg font-bold text-primary">{product.price} تومان</span>
-                    {product.originalPrice && (
-                      <span className="text-sm text-muted-foreground line-through">{product.originalPrice}</span>
+              <Link key={product.id} href={`/products/${product.id}`}>
+                <div
+                  className="group bg-card border border-border rounded-xl overflow-hidden hover:border-primary/50 hover:shadow-lg transition-all duration-300 h-full flex flex-col cursor-pointer"
+                >
+                  {/* Image */}
+                  <div className="relative bg-muted overflow-hidden h-48 sm:h-56">
+                    <img
+                      src={product.image || "/placeholder.svg"}
+                      alt={product.name}
+                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                    />
+                    {product.badge && (
+                      <span className="absolute top-3 left-3 bg-accent text-accent-foreground px-3 py-1 rounded-full text-xs font-bold">
+                        {product.badge}
+                      </span>
                     )}
                   </div>
 
-                  {/* Button */}
-                  <button className="w-full bg-primary hover:bg-primary/90 text-white font-medium py-2 rounded-lg transition-colors flex items-center justify-center gap-2">
-                    <ShoppingCart size={18} />
-                    افزودن به سبد
-                  </button>
+                  {/* Content */}
+                  <div className="p-4 sm:p-5 flex flex-col flex-grow">
+                    <p className="text-xs text-primary font-semibold mb-2">{product.brand}</p>
+                    <h3 className="font-bold text-base mb-3 text-foreground line-clamp-2">{product.name}</h3>
+
+                    {/* Price */}
+                    <div className="flex items-center gap-2 mb-4">
+                      <span className="text-lg font-bold text-primary">{product.price} تومان</span>
+                      {product.originalPrice && (
+                        <span className="text-sm text-muted-foreground line-through">{product.originalPrice}</span>
+                      )}
+                    </div>
+
+                    {/* Button */}
+                    <button className="w-full bg-primary hover:bg-primary/90 text-white font-medium py-2 rounded-lg transition-colors flex items-center justify-center gap-2 mt-auto">
+                      <ShoppingCart size={18} />
+                      افزودن به سبد
+                    </button>
+                  </div>
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
         </div>
@@ -198,30 +144,34 @@ export default function Home() {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {newProducts.map((product) => (
-              <div
-                key={product.id}
-                className="group bg-card border border-border rounded-xl overflow-hidden hover:border-primary/50 hover:shadow-lg transition-all duration-300"
-              >
-                <div className="relative bg-muted overflow-hidden h-48 sm:h-56">
-                  <img
-                    src={product.image || "/placeholder.svg"}
-                    alt={product.name}
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
-                  />
-                </div>
-
-                <div className="p-4 sm:p-5">
-                  <p className="text-xs text-primary font-semibold mb-2">{product.brand}</p>
-                  <h3 className="font-bold text-base mb-3 text-foreground line-clamp-2">{product.name}</h3>
-                  <div className="flex items-center gap-2 mb-4">
-                    <span className="text-lg font-bold text-primary">{product.price} تومان</span>
+              <Link key={product.id} href={`/products/${product.id}`}>
+                <div
+                  className="group bg-card border border-border rounded-xl overflow-hidden hover:border-primary/50 hover:shadow-lg transition-all duration-300 h-full flex flex-col cursor-pointer"
+                >
+                  <div className="relative bg-muted overflow-hidden h-48 sm:h-56">
+                    <img
+                      src={product.image || "/placeholder.svg"}
+                      alt={product.name}
+                      className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
+                    />
                   </div>
-                  <button className="w-full bg-primary hover:bg-primary/90 text-white font-medium py-2 rounded-lg transition-colors flex items-center justify-center gap-2">
-                    <ShoppingCart size={18} />
-                    افزودن به سبد
-                  </button>
+
+                  <div className="p-4 sm:p-5 flex flex-col flex-grow">
+                    <p className="text-xs text-primary font-semibold mb-2">{product.brand}</p>
+                    <h3 className="font-bold text-base mb-3 text-foreground line-clamp-2">{product.name}</h3>
+                    <div className="flex items-center gap-2 mb-4">
+                      <span className="text-lg font-bold text-primary">{product.price} تومان</span>
+                      {product.originalPrice && (
+                        <span className="text-sm text-muted-foreground line-through">{product.originalPrice}</span>
+                      )}
+                    </div>
+                    <button className="w-full bg-primary hover:bg-primary/90 text-white font-medium py-2 rounded-lg transition-colors flex items-center justify-center gap-2 mt-auto">
+                      <ShoppingCart size={18} />
+                      افزودن به سبد
+                    </button>
+                  </div>
                 </div>
-              </div>
+              </Link>
             ))}
           </div>
         </div>
