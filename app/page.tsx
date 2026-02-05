@@ -3,6 +3,7 @@
 import { useState } from "react"
 
 import Link from 'next/link';
+import Image from "next/image";
 import { ChevronRight, Package, Clock, CheckCircle, ShoppingCart, Search, Heart, X, Menu } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import Header from '@/components/Header';
@@ -57,9 +58,11 @@ export default function Home() {
             </div>
             <div className="order-1 md:order-2 flex justify-center">
               <div className="relative w-full max-w-sm h-80 rounded-2xl overflow-hidden border-2 border-primary/30">
-                <img
+                <Image
                   src="/images/image.png"
                   alt="محصولات Kellopet"
+                        width={500}
+                        height={500}
                   className="w-full h-full object-cover"
                 />
               </div>
@@ -90,9 +93,11 @@ export default function Home() {
                 >
                   {/* Image */}
                   <div className="relative bg-muted overflow-hidden h-48 sm:h-56">
-                    <img
+                    <Image
                       src={product.image || "/placeholder.svg"}
                       alt={product.name}
+                        width={500}
+                        height={500}
                       className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
                     />
                     {product.badge && (
@@ -149,9 +154,11 @@ export default function Home() {
                   className="group bg-card border border-border rounded-xl overflow-hidden hover:border-primary/50 hover:shadow-lg transition-all duration-300 h-full flex flex-col cursor-pointer"
                 >
                   <div className="relative bg-muted overflow-hidden h-48 sm:h-56">
-                    <img
+                    <Image
                       src={product.image || "/placeholder.svg"}
                       alt={product.name}
+                        width={500}
+                        height={500}
                       className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
                     />
                   </div>

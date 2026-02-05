@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
+import Image from "next/image";
 import { useParams } from 'next/navigation';
 import { Share2, Minus, Plus, Truck, Shield, RotateCcw } from 'lucide-react';
 import Header from '@/components/Header';
@@ -81,9 +82,11 @@ export default function ProductDetailPage() {
           {/* Product Image */}
           <div className="flex justify-center">
             <div className="relative w-full max-w-md h-96 rounded-2xl overflow-hidden border-2 border-primary/30 bg-muted">
-              <img
+              <Image
                 src={product.image || "/placeholder.svg"}
                 alt={product.name}
+                                width={500}
+                                height={500}
                 className="w-full h-full object-cover"
               />
             </div>
@@ -245,9 +248,11 @@ export default function ProductDetailPage() {
                 className="group bg-card border border-border rounded-xl overflow-hidden hover:border-primary/50 hover:shadow-lg transition-all duration-300"
               >
                 <div className="bg-muted overflow-hidden h-48">
-                  <img
+                  <Image
                     src="/images/image.png"
                     alt="محصول مرتبط"
+                                width={500}
+                                height={500}
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
                   />
                 </div>

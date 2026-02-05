@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState } from 'react';
+import Image from "next/image";
 import {
   Plus,
   Search,
@@ -221,9 +222,11 @@ export default function ProductsPage() {
                         <div className="flex items-center gap-3">
                           {product.image && (
                             <div className="w-10 h-10 bg-muted rounded overflow-hidden shrink-0">
-                              <img
+                              <Image
                                 src={product.image}
                                 alt={product.name}
+                                width={500}
+                                height={500}
                                 className="w-full h-full object-cover"
                               />
                             </div>

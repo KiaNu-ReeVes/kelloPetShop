@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useMemo } from 'react';
+import Image from "next/image";
 import {
   ShoppingCart,
   Plus,
@@ -218,9 +219,11 @@ export default function POSPage() {
               >
                 {/* Product Image */}
                 <div className="relative bg-muted h-32 overflow-hidden">
-                  <img
+                  <Image
                     src={product.image || "/placeholder.svg"}
                     alt={product.name}
+                        width={500}
+                        height={500}
                     className="w-full h-full object-cover hover:scale-110 transition-transform"
                   />
                   <span
@@ -292,9 +295,11 @@ export default function POSPage() {
                   >
                     {/* Product Image */}
                     <div className="w-12 h-12 bg-background rounded overflow-hidden shrink-0">
-                      <img
+                      <Image
                         src={item.image || "/placeholder.svg"}
                         alt={item.name}
+                        width={500}
+                        height={500}
                         className="w-full h-full object-cover"
                       />
                     </div>

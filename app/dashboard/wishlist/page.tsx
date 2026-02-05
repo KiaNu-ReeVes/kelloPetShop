@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { Heart, ShoppingBag, Trash2 } from 'lucide-react';
 import Link from 'next/link';
+import Image from "next/image";
 
 export default function WishlistPage() {
   const [wishlist, setWishlist] = useState([
@@ -88,9 +89,11 @@ export default function WishlistPage() {
               >
                 {/* Image */}
                 <div className="relative bg-muted overflow-hidden h-48">
-                  <img
+                  <Image
                     src={product.image || "/placeholder.svg"}
                     alt={product.name}
+                                width={500}
+                                height={500}
                     className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
                   />
                   <button

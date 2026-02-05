@@ -2,6 +2,7 @@
 
 import { useState, useMemo } from 'react';
 import Link from 'next/link';
+import Image from "next/image";
 import Header from '@/components/Header';
 import productsData from '@/data/products.json';
 import { Trash2, Plus, Minus } from 'lucide-react';
@@ -101,9 +102,11 @@ export default function CartPage() {
                       {/* Image and Name */}
                       <div className="col-span-5 flex gap-3 sm:gap-4 mb-3 sm:mb-0">
                         <div className="w-16 h-16 sm:w-24 sm:h-24 bg-muted rounded overflow-hidden shrink-0">
-                          <img
+                          <Image
                             src={item!.image}
                             alt={item!.name}
+                                width={500}
+                                height={500}
                             className="w-full h-full object-cover"
                           />
                         </div>

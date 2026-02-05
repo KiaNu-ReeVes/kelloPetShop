@@ -2,6 +2,7 @@
 
 import { useState, useMemo } from 'react';
 import Link from 'next/link';
+import Image from "next/image";
 import ProductFilters from '@/components/ProductFilters';
 import Header from '@/components/Header';
 import productsData from '@/data/products.json';
@@ -129,9 +130,11 @@ export default function ProductsPage() {
                     className="group bg-card border border-border rounded-lg sm:rounded-xl overflow-hidden hover:border-primary/50 hover:shadow-lg transition-all duration-300 flex flex-col h-full"
                   >
                     <div className="relative bg-muted overflow-hidden h-40 sm:h-56">
-                      <img
+                      <Image
                         src={product.image || "/placeholder.svg"}
                         alt={product.name}
+                        width={500}
+                        height={500}
                         className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-300"
                       />
                       {product.originalPrice && product.originalPrice > product.price && (
